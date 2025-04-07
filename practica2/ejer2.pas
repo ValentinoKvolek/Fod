@@ -1,110 +1,95 @@
-program   ejer2_prac2;
-const 
-    valorAlto  = 'ZZZZ';
-type
+program ejer2_prac2;
 
+const 
+    valorAlto = 9999;
+
+type
     producto = record
-        codeP:integer;
-        nombreComercial:string;
-        precioVenta:real;
-        stockActual:integer;
-        stockMin:integer;
+        codeP: integer;
+        nombreComercial: string;
+        precioVenta: real;
+        stockActual: integer;
+        stockMin: integer;
     end;
 
     venta = record
-        codeP:integer;
-        cantVendida:integer;
+        codeP: integer;
+        cantVendida: integer;
     end;
 
-    // ambos archivos estan ordenados por codigo de producto.
-
     fileProductos = file of producto;
-    fileVentas = file of fileVentas;
+    fileVentas = file of venta;
 
-
-procedure leer(var arch : fileVentas; dato:venta);
+procedure leer(var arch: fileVentas; var dato: venta);
 begin
-    if(not eof(arch))then 
-        read(arch,dato);
-    else
-        dato.code:= valorAlto;
+    if not eof(arch) then 
+        read(arch, dato)
+    else 
+        dato.codeP := valorAlto;
 end;
 
-
-procedure incisoB(var mae:fileProductos);
+procedure incisoB;
 var
-
+    mae: fileProductos;
     txtFile: text;
     regm: producto;
-    aux:string;
-
 begin
+    assign(mae, 'maestroProductos');
+    reset(mae);
 
     assign(txtFile, 'stock_minimo.txt');
     rewrite(txtFile);
 
-    reset(mae);
-
     while not eof(mae) do begin
-
         read(mae, regm);
-        if(regm.stockActual < regm.stockMin) then 
-            writeln(txtFile, regm.codeP,'  ',regm.precioVenta:0:2,' ', regm.stockActual,' ', regm.stockMin,' ', regm.nombreComercial);
-
+        if regm.stockActual < regm.stockMin then
+            writeln(txtFile, regm.codeP, '  ', regm.precioVenta:0:2, ' ', regm.stockActual, ' ', regm.stockMin, ' ', regm.nombreComercial);
     end;
 
+    close(mae);
+    close(txtFile);
 end;
 
-
-
 var
-    regd : producto;
-    regm :venta;
-
-    mae : fileProductos;
+    regd: venta;
+    regm: producto;
+    mae: fileProductos;
     det: fileVentas;
-
-    total:integer;
-    aux:string;
-
+    total, aux: integer;
 begin
 
     assign(mae, 'maestroProductos');
     assign(det, 'detalleVentas');
-
     reset(mae);
     reset(det);
 
-    // A) Actualizar el Maestro.
     leer(det, regd);
+    
+    if not eof(mae) then
+        read(mae, regm);
 
-    while (regd.code <> valorAlto) do begin
+    while (regd.codeP <> valorAlto) do begin
+        aux := regd.codeP;
+        total := 0;
 
-        aux:= regd.code; // el auxiliar lo uso para comparar
-        total:=0;
+        while (regd.codeP = aux) do begin
+            total := total + regd.cantVendida;
+            leer(det, regd);
+        end;
 
-        while(aux = regd.code) do begin
-            total:= total + regd.cantVendida; 
-            leer(det,regd); 
-        end; 
+        while (regm.codeP <> aux) do
+            read(mae, regm);
 
-        while(regm.code <> aux ) do 
-            read(mae, regm); //mientras no encuentre el producto que vendi, itero.
+        regm.stockActual := regm.stockActual - total;
+        seek(mae, filepos(mae) - 1);
+        write(mae, regm);
 
-        //cuando lo encuentro modifico: 
-        regm.stockActual:= regm.stockActual - total;
-        seek(mae,filepos(mae)-1) // me posiciono en donde lo encontre.
-        write(mae, regm);  
-
-        if(not(eof(mae))) then
-            read(mae, regm); // sigo leyendo por que el archivo maestro puede ser actualizado 1 0 mas veces por el detalle.
-          
+        if not eof(mae) then
+            read(mae, regm);
     end;
+
     close(mae);
     close(det);
 
-    incisoB(mae);
-
-
+    incisoB;
 end.
-
