@@ -93,21 +93,51 @@ begin
         dato.codeAlumno:= VALOR_ALTO;
 end;
 
-procedure actualizar(var mae:maestro; var detc:detalleC; var detf:detalleF);
+procedure actualizar(var mae: fileMaestro; var detC: fileDetalleC; var detF: fileDetalleF);
 var
-    regm: maestro;
-    regdc: detalleC;
-    regdf: detalleF;
+    codActual: integer;
+    totalC, totalF: integer;
 begin
-
     reset(mae);
-    reset(detc);
-    reset(detf);
+    reset(detC);
+    reset(detF);
 
-    leerC(detf,detc, regdf, regdc);
+    leerC(detC, regdc);
+    leerF(detF, regdf);
 
+    while not eof(mae) do begin
+        read(mae, regm);
+        codActual := regm.codeAlumno;
 
-    while()
+        totalC := 0;
+        totalF := 0;
+
+        // procesar cursadas
+        while regdc.codeAlumno = codActual do begin
+            if regdc.resultado = 'aprobado' then
+                totalC := totalC + 1;
+            leerC(detC, regdc);
+        end;
+
+        // procesar finales
+        while regdf.codeAlumno = codActual do begin
+            if regdf.nota >= 4 then
+                totalF := totalF + 1;
+            leerF(detF, regdf);
+        end;
+
+        regm.cantCursadasAprobadas := regm.cantCursadasAprobadas + totalC;
+        regm.cantMateriasAprobadas := regm.cantMateriasAprobadas + totalF;
+
+        // volver atrás y escribir
+        seek(mae, filepos(mae) - 1);
+        write(mae, regm);
+    end;
+
+    close(mae);
+    close(detC);
+    close(detF);
+end;
     
 end;
 
