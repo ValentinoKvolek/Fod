@@ -40,6 +40,8 @@ ocurre con los exámenes finales.
 
 program ejer7prac3;
 
+const VALOR_ALTO = 9999;
+
 type
 
     //ordenado por codigo de alumno
@@ -74,7 +76,22 @@ type
     
 end;
 
-procedure leer (var detf : )
+procedure leerC (var arch: fileDetalleC; var dato:detalleC);
+begin
+    if not eof(arch) do 
+        read(arch, dato);
+    else
+        dato.codeAlumno:= VALOR_ALTO;
+end;
+
+
+procedure leerF (var arch: fileDetalleF; var dato:detalleF);
+begin
+    if not eof(arch) do 
+        read(arch, dato);
+    else
+        dato.codeAlumno:= VALOR_ALTO;
+end;
 
 procedure actualizar(var mae:maestro; var detc:detalleC; var detf:detalleF);
 var
@@ -87,7 +104,7 @@ begin
     reset(detc);
     reset(detf);
 
-    leer(detf,detc, regdf, regdc);
+    leerC(detf,detc, regdf, regdc);
 
 
     while()
