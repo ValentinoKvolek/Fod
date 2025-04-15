@@ -63,9 +63,6 @@ begin
 end;
 
 
-
-
-
 var
     mae:fileMaestro;
     regm :maestro;
