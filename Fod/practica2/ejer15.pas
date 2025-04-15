@@ -75,17 +75,20 @@ begin
         leer(vd[i],vr[i]);
     end;
 
+    reset(mae);
     minimo(vd,vr, min);
     read(mae, regm);
     while(min.codeProv<> VALOR_ALTO) do begin
-        while(regm.codeProv <> min.codeProv) and (regm.codeLocalidad <> min.codeLocalidad) do
+        while(regm.codeProv <> min.codeProv) or (regm.codeLocalidad <> min.codeLocalidad) do
             read(mae, regm);
-        while (regm.codeProv <> min.codeProv) and (regm.codeLocalidad <> min.codeLocalidad) do begin
+
+        while (regm.codeProv = min.codeProv) and (regm.codeLocalidad = min.codeLocalidad) do begin
             regm.viviendasSinLuz:= regm.viviendasSinLuz - min.viviendasConLuz;
             regm.viviendasSinAgua:= regm.viviendasSinAgua - min.viviendasConAgua;
             regm.viviendasSinGas:=regm.viviendasSinGas - min.viviendasConGas;
             regm.viviendasSinSanitario:= regm.viviendasSinSanitario - min.entregaSanitario;
             regm.viviendasSinChapa:= regm.viviendasSinChapa - min.viviendasConstruidas;
+            minimo(vd,vr, min);
         end;
         seek(mae, filepos(mae)-1);
         write(mae, regm);
