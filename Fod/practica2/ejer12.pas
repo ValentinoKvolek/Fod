@@ -85,8 +85,10 @@ var
     mae: fileMaestro;
     input:integer;
 begin
+
     assing(mae, 'maestro');
     writeln('ingrese el anio del informe que desea ver');
     readln(input)
     imprimir(mae,input);
+    
 end;
