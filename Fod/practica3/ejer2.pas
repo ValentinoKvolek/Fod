@@ -15,9 +15,9 @@ String a su elección. Ejemplo: ‘@Saldaño’
 program ejer2_prac3;
 type
 
-    congreso = record;
+    congreso = record
         nroAsistente :integer;
-        apellido: sstring[50];
+        apellido: string[50];
         nombre:string[50];
         email:string[50];
         telefono:integer;
@@ -33,12 +33,19 @@ begin
     reset(mae);
     read(mae,reg);
     while(not eof(mae)) do begin
-        while (reg.nroAsistente > 1000) then begin
+        if (reg.nroAsistente < 1000) then begin
             reg.nombre:= '$'+ reg.nombre;
             seek(mae, filepos(mae)-1);
             write(mae,reg);
         end;
         read(mae,reg);
+    end;
+
+    seek(mae,0);
+    writeln('nuevo archivo teniendo en cuenta eliminados');
+    while(not eof(mae)) do begin
+        read(mae,reg);
+        writeln('nombre: ', reg.nombre,' nro asistencia: ', reg.nroAsistente);
     end;
     close(mae);
 end;
@@ -54,7 +61,7 @@ begin
     writeln('ingrese nombre un nomre o zzz para salir.');
     readln(reg.nombre);
 
-    while(reg.nombro<>'zzz') do begin
+    while(reg.nombre<>'zzz') do begin
 
         writeln(' apellido: ');
         readln(reg.apellido);
@@ -71,7 +78,8 @@ begin
         writeln('ingrese nombre un nomre o zzz para salir.');
         readln(reg.nombre);
     end;
+    writeln('sali');
     close(mae);
     eliminar(mae);
-end;
+end.
 
