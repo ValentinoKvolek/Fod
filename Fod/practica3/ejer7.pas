@@ -117,7 +117,7 @@ begin
 
             write(mae, aux); //copio ultimo en el borrado.
 
-            seek(mae, FileSize(mae) - 1);
+            seek(mae, FileSize(mae) - 1);   //importante moverte al ultimo lugar para truncar y evitar duplicado o que se trunque todo hasta la pos.
             truncate(mae);
 
             seek(mae, pos); //reposiciono para seguir recorriendo.
