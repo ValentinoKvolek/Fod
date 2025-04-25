@@ -1,10 +1,5 @@
-101 19.99 Ciencia Ficción
-Duna
-102 14.50 Fantasía
-El Hobbit
-103 9.99 Terror
-It
-104 24.75 Drama
-Orgullo y Prejuicio
-105 12.00 Misterio
-El código Da Vinci
+Codigo=544 Genero=terror Nombre=pain Duracion=40.00 Director=pain Precio=300.00
+Codigo=666 Genero=accion Nombre=yoni Duracion=44.00 Director=tt Precio=505.00
+Codigo=60 Genero=accion Nombre=valen Duracion=500.00 Director=fj Precio=500.00
+Codigo=444 Genero=terror Nombre=yoni Duracion=59.00 Director=t Precio=500.00
+Codigo=40 Genero=terror Nombre=fermin Duracion=4.00 Director=fermin Precio=4.00
