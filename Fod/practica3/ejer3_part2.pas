@@ -57,9 +57,6 @@ begin
     assing(mae, 'maestro');
     rewrite(mae);
 
-    
-
-
     for i:= 1 to 5 do begin  //por cada detalle.
         assing(vd[i], 'detalle', i);
         reset(vd[i]);
