@@ -4,6 +4,8 @@ const
     valorAlto = 9999;
 
 type
+
+
     producto = record
         codeP: integer;
         nombreComercial: string;
@@ -33,8 +35,9 @@ var
     mae: fileProductos;
     txtFile: text;
     regm: producto;
+
 begin
-    assign(mae, 'maestroProductos');
+
     reset(mae);
 
     assign(txtFile, 'stock_minimo.txt');
@@ -51,15 +54,18 @@ begin
 end;
 
 var
+
     regd: venta;
     regm: producto;
     mae: fileProductos;
     det: fileVentas;
     total, aux: integer;
+
 begin
 
     assign(mae, 'maestroProductos');
     assign(det, 'detalleVentas');
+
     reset(mae);
     reset(det);
 
@@ -72,16 +78,17 @@ begin
         aux := regd.codeP;
         total := 0;
 
+        while (regm.codeP <> aux) do
+            read(mae, regm);
+
         while (regd.codeP = aux) do begin
             total := total + regd.cantVendida;
             leer(det, regd);
         end;
 
-        while (regm.codeP <> aux) do
-            read(mae, regm);
-
         regm.stockActual := regm.stockActual - total;
         seek(mae, filepos(mae) - 1);
+
         write(mae, regm);
 
         if not eof(mae) then
