@@ -87,7 +87,7 @@ begin
         seek(mae, 0);
         read(mae, reg);
 
-        if(reg.cantDesarrolladores =0 ) then begin //si no hay espacio libre: 
+        if(reg.cantDesarrolladores = 0 ) then begin //si no hay espacio libre: 
 
             seek(mae, filesize(mae));
             write(mae, nuevaD);
@@ -97,12 +97,12 @@ begin
 
             paux:=(reg.cantDesarrolladores *-1); //me da la pos del registro libre
             seek(mae, paux); //leo para saber cual es el siguiente.
-            read(mae, aux);
+            read(mae, aux); //aux = -2 
 
             //actualizo el siguiente en la cabecera.
             seek(mae, 0);
-            read(mae, reg);
-            reg.cantDesarrolladores:= aux.cantDesarrolladores;
+            read(mae, reg); //-1
+            reg.cantDesarrolladores:= aux.cantDesarrolladores; //-2
             seek(mae, 0);
             write(mae, reg);
 
